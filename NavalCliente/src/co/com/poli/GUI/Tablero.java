@@ -4,17 +4,25 @@
  */
 package co.com.poli.GUI;
 
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author omesa
  */
 public class Tablero extends javax.swing.JFrame {
-
+    private static int numBotones = 10;
+    private static int tamBarco = 4;
     /**
      * Creates new form Tablero
      */
     public Tablero() {
-        initComponents();
+        initComponents();       
+        llenarMatrizBotones();
     }
 
     /**
@@ -26,18 +34,13 @@ public class Tablero extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(6, 0), new java.awt.Dimension(6, 0), new java.awt.Dimension(6, 32767));
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jLabel3 = new javax.swing.JLabel();
         button1 = new java.awt.Button();
         button2 = new java.awt.Button();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jScrollPane1.setViewportView(filler1);
 
         jLabel1.setBackground(new java.awt.Color(255, 3, 0));
         jLabel1.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
@@ -45,34 +48,29 @@ public class Tablero extends javax.swing.JFrame {
 
         jLabel2.setText("Tablero enemigo");
 
-        jLabel3.setText("Mi tablero");
-
         button1.setLabel("button1");
 
         button2.setLabel("button2");
+
+        jPanel2.setLayout(new java.awt.GridLayout(1, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(316, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(219, 219, 219))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(56, 56, 56)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(9, 9, 9)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(65, 65, 65)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(66, Short.MAX_VALUE))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -82,12 +80,8 @@ public class Tablero extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -129,14 +123,44 @@ public class Tablero extends javax.swing.JFrame {
             }
         });
     }
+
+    public void llenarMatrizBotones() {
+        jPanel2.setLayout(new GridLayout(numBotones, numBotones));
+        
+        for (int i = 1; i <= numBotones; i++) {
+            for (int j = 1; j <= numBotones; j++) {
+                final JButton boton = new JButton("b" + i +","+j);
+                boton.setName(i +","+j);                
+                boton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String[] vec = boton.getName().split(",");
+                        int x = Integer.parseInt(vec[0]);
+                        int y = Integer.parseInt(vec[1]);
+                        boolean sw = true;
+                        int control = 0;
+                        while (sw) {
+                            
+                            if(x - tamBarco >= 0){
+
+                            }
+                        }                                                            
+                    }
+                });
+                jPanel2.add(boton);
+            }            
+        }
+    }
+    
+    public void pintarBarco(){
+        
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button button1;
     private java.awt.Button button2;
-    private javax.swing.Box.Filler filler1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }
