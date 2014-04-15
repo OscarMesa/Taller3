@@ -4,9 +4,13 @@
  */
 package co.com.poli.GUI;
 
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
@@ -15,13 +19,19 @@ import javax.swing.JOptionPane;
  * @author omesa
  */
 public class Tablero extends javax.swing.JFrame {
-    private static int numBotones = 10;
+    private static int numBotones = 5;
     private static int tamBarco = 4;
+    private ArrayList<Boton> matrizBotones;
+    private Boton[][] matrizBotopesFC;
+    private ArrayList<JButton> barco;
     /**
      * Creates new form Tablero
      */
     public Tablero() {
         initComponents();       
+        matrizBotones = new ArrayList<>();
+        matrizBotopesFC = new Boton[numBotones + 1][numBotones + 1];
+        barco = new ArrayList<>();
         llenarMatrizBotones();
     }
 
@@ -130,30 +140,97 @@ public class Tablero extends javax.swing.JFrame {
         for (int i = 1; i <= numBotones; i++) {
             for (int j = 1; j <= numBotones; j++) {
                 final JButton boton = new JButton("b" + i +","+j);
-                boton.setName(i +","+j);                
                 boton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        String[] vec = boton.getName().split(",");
-                        int x = Integer.parseInt(vec[0]);
-                        int y = Integer.parseInt(vec[1]);
-                        boolean sw = true;
+                        int minimum = 1, maximum = 4;
+                        int columna = (matrizBotones.get(Integer.parseInt(boton.getName())).getColumna());
+                        int fila = (matrizBotones.get(Integer.parseInt(boton.getName())).getFila());
+                        boolean sw = true,s1 = true,s3 = true,s2 = true,s4 = true;
                         int control = 0;
                         while (sw) {
-                            
-                            if(x - tamBarco >= 0){
-
+                            int op = minimum + (int)(Math.random()*maximum); 
+                            switch(op){
+                                case 1:
+                                    if(fila - tamBarco >= 0){
+                                        sw = false;
+                                        pintarBarco1(fila,columna);
+                                    }else{
+                                        s1 = false;
+                                    }
+                                    break;
+                                case 2:
+                                    if((numBotones - columna + 1) >= tamBarco){
+                                        sw = false;
+                                        pintarBarco2(fila,columna);
+                                    }else{
+                                        s2 = false;
+                                    }
+                                    break;
+                                case 3:
+                                    if((numBotones - fila + 1) >= tamBarco ){
+                                        sw = false;
+                                        pintarBarco3(fila, columna);
+                                    }else{
+                                        s3 = false;
+                                    }
+                                    break;
+                                case 4:
+                                    if(columna - tamBarco >= 0){
+                                        sw = false;
+                                        pintarBarco4(fila, columna);
+                                    }else{
+                                        s4 = false;
+                                    }
+                                    break;
+                            }
+                            if(!s1 && !s2 && !s3 && !s4){
+                                JOptionPane.showMessageDialog(rootPane, "Debe seleccionar un punto diferente en la mtriz","Error",JOptionPane.ERROR_MESSAGE);
+                                break;
                             }
                         }                                                            
                     }
                 });
+                Boton btnP = new Boton(boton, i, j);
+                matrizBotones.add(btnP);
+                matrizBotopesFC[i][j] = btnP;
+                boton.setName(String.valueOf(matrizBotones.size()-1));
                 jPanel2.add(boton);
             }            
         }
     }
     
-    public void pintarBarco(){
-        
+    public void pintarBarco1(int fila, int columna){
+        int cont = 0;
+        for (int i = fila; cont < tamBarco; i--) {
+            matrizBotopesFC[i][columna].getBtn().setBackground(Color.BLUE);
+            barco.add(matrizBotopesFC[i][columna].getBtn());
+            cont++;
+        }
+    }
+    public void pintarBarco2(int fila, int columna){
+        int cont = 0;
+        for (int j = columna; cont < tamBarco; j++) {
+            matrizBotopesFC[fila][j].getBtn().setBackground(Color.BLUE);
+            barco.add(matrizBotopesFC[fila][j].getBtn());
+            cont++;
+        }
+    }
+    public void pintarBarco3(int fila, int columna){
+        int cont = 0;
+        for (int i = fila; cont < tamBarco; i++) {
+            matrizBotopesFC[i][columna].getBtn().setBackground(Color.BLUE);
+            barco.add(matrizBotopesFC[i][columna].getBtn());
+            cont++;
+        }
+    }
+    public void pintarBarco4(int fila, int columna){
+        int cont = 0;
+        for (int j = columna; cont < tamBarco; j--) {
+            matrizBotopesFC[fila][j].getBtn().setBackground(Color.BLUE);
+            barco.add(matrizBotopesFC[fila][j].getBtn());
+            cont++;
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -163,4 +240,45 @@ public class Tablero extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
+}
+
+class Boton{
+    private JButton btn;
+    private int fila;
+    private int columna;
+
+    public Boton() {
+    }
+
+    public Boton(JButton btn, int fila, int columna) {
+        this.btn = btn;
+        this.fila = fila;
+        this.columna = columna;
+    }
+
+    public JButton getBtn() {
+        return btn;
+    }
+
+    public void setBtn(JButton btn) {
+        this.btn = btn;
+    }
+
+    public int getFila() {
+        return fila;
+    }
+
+    public void setFila(int fila) {
+        this.fila = fila;
+    }
+
+    public int getColumna() {
+        return columna;
+    }
+
+    public void setColumna(int columna) {
+        this.columna = columna;
+    }
+    
+    
 }
