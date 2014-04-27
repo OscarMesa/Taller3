@@ -4,7 +4,6 @@
  */
 package navalcliente;
 
-import chuidiang.ejemplos.Constantes;
 import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
