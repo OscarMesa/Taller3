@@ -4,18 +4,11 @@
  */
 package navalcliente;
 
-import co.com.poli.GUI.Tablero;
-import java.io.IOException;
+import chuidiang.ejemplos.Constantes;
 import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.Scanner;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -32,56 +25,45 @@ public class NavalCliente implements Serializable{
      */
     
     public NavalCliente() {
-        try {
-            //InetAddress IP_Servidor = InetAddress.getLocalHost();
+        
+        try
+        {
+
+            // La IP es la local, el puerto es en el que este cliente est�
+            // escuchando.
+            DatagramSocket socket = new DatagramSocket(
+                    Constantes.PUERTO_DEL_CLIENTE, InetAddress
+                            .getByName("localhost"));
+
+            // Se instancia un DatoUdp y se convierte a bytes[]
+            Jugador elDato = new Jugador();
+            byte[] elDatoEnBytes = elDato.serializarJugardor();
+
+            // Se meten los bytes en el DatagramPacket, que es lo que se
+            // va a enviar por el socket.
+            // El destinatario es el servidor.
+            // El puerto es por el que est escuchando el servidor.
+            DatagramPacket dato = new DatagramPacket(elDatoEnBytes,
+                    elDatoEnBytes.length, InetAddress
+                            .getByName(Constantes.HOST_SERVIDOR),
+                    Constantes.PUERTO_DEL_SERVIDOR);
+             socket.send(dato);
             
-            InetAddress IP_Servidor = null ;
-            try {
-                IP_Servidor = InetAddress.getByName("192.168.0.16");
-            } catch (UnknownHostException ex) {
-                Logger.getLogger(NavalCliente.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                
-            DatagramSocket cliente;
-            DatagramPacket entrada;
-            DatagramPacket salida;
-            
-            byte[] datosEntrada;
-            byte[] datosSalida;
-            
-            
-            Jugador jugador = new Jugador();
-            
-            cliente = new DatagramSocket();
-            byte[] j = jugador.serializarJugardor();
-            salida = new DatagramPacket(j, j.length, IP_Servidor, PUERTO_SERVIDOR);
-            try {
-                cliente.send(salida);
-            } catch (IOException ex) {
-                Logger.getLogger(NavalCliente.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            System.out.println("Iniciando Cliente...");
-            /*while(true){
-                try {
-                    cliente = new DatagramSocket();
-                    datosSalida = new byte[1024];
-                    salida = new DatagramPacket(datosSalida, datosSalida.length, IP_Servidor, PUERTO_SERVIDOR);
-                    cliente.send(salida);
-                    
-                    datosEntrada = new byte[1024];
-                    entrada = new DatagramPacket(datosEntrada, datosEntrada.length);
-                    cliente.receive(entrada);
-                    String mensaje = new String(entrada.getData(), 0, entrada.getLength());
-                    System.out.println("Servidor >>"+mensaje);
-       
-                } catch (SocketException ex) {
-                    Logger.getLogger(NavalCliente.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(NavalCliente.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }*/
-        } catch (SocketException ex) {
-            Logger.getLogger(NavalCliente.class.getName()).log(Level.SEVERE, null, ex);
+            // Se env�a el DatagramPacket 10 veces, esperando 1 segundo entre
+            // env�o y env�o.
+//            for (int i = 0; i < 10; i++)
+//            {
+//                System.out.println("Envio dato " + i);
+//                socket.send(dato);
+//                Thread.sleep(1000);
+//            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
         }
+    }
+    
+    public static void main(String... args){
+        new NavalCliente();
     }
 }

@@ -1,5 +1,5 @@
 /**
- * Javier Abellán, 16 Mayo 2006
+ * Javier Abelln, 16 Mayo 2006
  */
 package chuidiang.ejemplos;
 
@@ -34,7 +34,7 @@ public class DatoUdp implements Serializable
     {
         try
         {
-             // Se hace la conversión usando un ByteArrayOutputStream y un
+             // Se hace la conversiï¿½n usando un ByteArrayOutputStream y un
              // ObjetOutputStream.
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             ObjectOutputStream os = new ObjectOutputStream (bytes);
@@ -58,7 +58,7 @@ public class DatoUdp implements Serializable
     {
         try
         {
-            // Se realiza la conversión usando un ByteArrayInputStream y un
+            // Se realiza la conversiï¿½n usando un ByteArrayInputStream y un
             // ObjectInputStream
             ByteArrayInputStream byteArray = new ByteArrayInputStream(bytes);
             ObjectInputStream is = new ObjectInputStream(byteArray);

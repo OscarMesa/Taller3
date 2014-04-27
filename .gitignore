@@ -18,3 +18,4 @@ hs_err_pid*
 /NavalServidor/lib/
 /NavalServidor/build/
 /NavalCliente/dist/
+/NavalServidor/dist/

@@ -1,9 +1,9 @@
 /**
- * Javier Abell�n, 16 Mayo 2006
+ * Javier Abelln, 16 Mayo 2006
  */
-package navalservidor.ejempl;
+package chuidiang.ejemplos;
 
-import chuidiang.ejemplos.DatoUdp;
+import chuidiang.ejemplos.Constantes;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -55,8 +55,8 @@ public class ServidorUdp
                         + dato.getAddress().getHostName() + " : ");
                 
                 // Conversion de los bytes a DatoUdp
-                DatoUdp datoRecibido = DatoUdp.fromByteArray(dato.getData());
-                System.out.println(datoRecibido.cadenaTexto);
+                DatoUdp j = DatoUdp.fromByteArray(dato.getData());
+                System.out.println(j.cadenaTexto);
             }
         } catch (Exception e)
         {

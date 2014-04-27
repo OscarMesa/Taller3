@@ -1,19 +1,10 @@
-/**
- * Javier Abellán, 16 Mayo 2006
- * Ejemplo de uso de socket udp en java
- */
+
 package chuidiang.ejemplos;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-/**
- * Abre un socket udp y envía por él 10 mensajes consistentes en 10 clases
- * DatoUdp.
- * @author Chuidiang
- *
- */
 public class ClienteUdp
 {
 
@@ -26,16 +17,13 @@ public class ClienteUdp
         new ClienteUdp();
     }
 
-    /**
-     * Crea una instancia de esta clase y envía los 10 mensajes
-     *
-     */
+  
     public ClienteUdp()
     {
         try
         {
 
-            // La IP es la local, el puerto es en el que este cliente esté
+            // La IP es la local, el puerto es en el que este cliente estï¿½
             // escuchando.
             DatagramSocket socket = new DatagramSocket(
                     Constantes.PUERTO_DEL_CLIENTE, InetAddress
@@ -48,14 +36,14 @@ public class ClienteUdp
             // Se meten los bytes en el DatagramPacket, que es lo que se
             // va a enviar por el socket.
             // El destinatario es el servidor.
-            // El puerto es por el que esté escuchando el servidor.
+            // El puerto es por el que est escuchando el servidor.
             DatagramPacket dato = new DatagramPacket(elDatoEnBytes,
                     elDatoEnBytes.length, InetAddress
                             .getByName(Constantes.HOST_SERVIDOR),
                     Constantes.PUERTO_DEL_SERVIDOR);
             
-            // Se envía el DatagramPacket 10 veces, esperando 1 segundo entre
-            // envío y envío.
+            // Se enva el DatagramPacket 10 veces, esperando 1 segundo entre
+            // envo y env.
             for (int i = 0; i < 10; i++)
             {
                 System.out.println("Envio dato " + i);

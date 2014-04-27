@@ -10,52 +10,55 @@ package navalservidor;
  *
  * @author jgiraldo
  */
-import java.io.IOException;
+import chuidiang.ejemplos.Constantes;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
-import java.util.Scanner;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import navalcliente.Jugador;
 
-class NavalServidor {
+/**
+ * Servidor de udp que se pone a la escucha de DatagramPacket que contengan
+ * dentro DatoUdp y los escribe en pantalla.
+ * 
+ * @author Chuidiang
+ */
+public class NavalServidor
+{
 
-    private static final int PUERTO_SERVER = 12345;
-    
-    public static void main(String[] args) {
+    public NavalServidor()
+    {
+        try
+        {
 
-        DatagramSocket servidor;
-        DatagramPacket entrada;
-        DatagramPacket salida;
+            // La IP es la local, el puerto es en el que el servidor est� 
+            // escuchando.
+            DatagramSocket socket = new DatagramSocket(
+                    Constantes.PUERTO_DEL_SERVIDOR, InetAddress
+                            .getByName("localhost"));
 
-        byte[] datosEntrada;
-        byte[] datosSalida;
-        entrada = new DatagramPacket(new byte[100], 100);
-        Scanner teclado = new Scanner(System.in);
-        System.out.println("Iniciando Chat Servidor...");
-        
-        try {
-            servidor = new DatagramSocket(PUERTO_SERVER);
-            while (true) {
+            // Un DatagramPacket para recibir los mensajes.
+            DatagramPacket dato = new DatagramPacket(new byte[100], 100);
 
-                servidor.receive(entrada);
-
+            // Bucle infinito.
+            while (true)
+            {
+                // Se recibe un dato y se escribe en pantalla.
+                socket.receive(dato);
                 System.out.print("Recibido dato de "
-                        + entrada.getAddress().getHostName() + " : ");
+                        + dato.getAddress().getHostName() + " : ");
                 
-                
-                
+                // Conversion de los bytes a DatoUdp
+                Jugador j = Jugador.derializarJugador(dato.getData());
+                System.out.println(j.getIdjugador());
             }
-
-        } catch (SocketException ex) {
-            Logger.getLogger(NavalServidor.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(NavalServidor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
         }
-
     }
 
+    
+   public static void main(String... args){
+        new NavalServidor();
+    }
 }
-
