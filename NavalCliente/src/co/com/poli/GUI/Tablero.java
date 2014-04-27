@@ -20,6 +20,7 @@ import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import navalcliente.NavalCliente;
 
 /**
  *
@@ -54,6 +55,7 @@ public class Tablero extends javax.swing.JFrame {
         llenarMatrizBotones();
         llenarMatrizBotonesEnemiga();
         jLabel3.setText(mensajes.UBICAR_BARCO.getMsn());
+       // NavalCliente cliente = new NavalCliente();
     }
 
     /**

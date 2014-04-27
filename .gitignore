@@ -16,3 +16,5 @@ hs_err_pid*
 /NavalServidor/nbproject
 /NavalServidor/build.xml
 /NavalServidor/lib/
+/NavalServidor/build/
+/NavalCliente/dist/
