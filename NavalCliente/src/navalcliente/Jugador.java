@@ -20,6 +20,7 @@ public class Jugador implements Serializable {
     private static final long serialVersionUID = 3258698714674442547L;
     private UUID idjugador = UUID.randomUUID();
     private boolean execute;
+    private Mensaje msn;
     
     public Jugador()
     {
@@ -76,5 +77,38 @@ public class Jugador implements Serializable {
     public void setExecute(boolean execute) {
         this.execute = execute;
     }
+
+    public Mensaje getMsn() {
+        return msn;
+    }
+
+    public void setMsn(Mensaje msn) {
+        this.msn = msn;
+    }
     
+    
+}
+
+enum Mensaje {
+
+    ESPERA_SERVER("Esperando conexion del servidor."),
+    ESPERA_OPONENTE("Esperando conexion oponente."),
+    TURNO("Es su turno, realice su movimiento."),
+    ESPERA_MOVIMIENTO_OPONENTE("Espere que su oponente realice el movimiento"),
+    ERROR_CONEXION("A surgiodo un error durante la conexion."),
+    EXITO_TIRO("A conseguido darle al oponente."),
+    ERRADO_TIRO("Su tiro fue errado."),
+    UBICAR_BARCO("Seleccione una posicion dentro de la matriz, para colocar aletoreamente el barco."),
+    INICIAR_PARTIDA("Por favor inicie la partida."),
+    ERROR_POSICION_BARCO("Debe seleccionar un punto diferente en la mtriz, debido a que el barco no puede ser ubicado");
+
+    private final String msn;
+
+    private Mensaje(String msn) {
+        this.msn = msn;
+    }
+
+    public String getMsn() {
+        return msn;
+    }
 }
