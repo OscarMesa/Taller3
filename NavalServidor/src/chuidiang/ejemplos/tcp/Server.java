@@ -29,11 +29,10 @@ public class Server {
     private HashMap<String,Jugador> jugadores;
     
     public Server() {
-
+        jugadores = new HashMap<>();
     }
 
     public void communicate() {
-        jugadores = new HashMap<>();
         try {
             serverSocket = new ServerSocket(4445);
             System.out.println("Connected");
@@ -48,7 +47,6 @@ public class Server {
                 //System.out.println("Id jugador = " + j.getIdjugador());
                 
                 Jugador p = jugadores.get(j.getIdjugador().toString());
-                 System.out.println(p);
                 if(p == null)
                 {
                     System.out.println("No existe, agregado");
@@ -56,7 +54,7 @@ public class Server {
                 }else{
                     System.out.println("ya existe");
                 }
-
+                System.out.println(j);
             }
 
         } catch (SocketException se) {

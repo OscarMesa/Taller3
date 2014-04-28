@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package chuidiang.ejemplos.tcp;
 
 import java.io.IOException;
@@ -18,8 +17,6 @@ import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
- 
-
 public class Client {
 
     private Socket socket = null;
@@ -30,54 +27,39 @@ public class Client {
 
     private boolean isConnected = false;
 
- 
-
     public Client() {
 
- 
-
     }
-
- 
 
     public void communicate() {
 
- 
-
      //   while (!isConnected) {
+        try {
 
-            try {
+            System.out.println("Connected");
 
-                System.out.println("Connected");
+            isConnected = true;
 
-                isConnected = true;
+            socket = new Socket("localHost", 4445);
+            Jugador student = new Jugador(43, "Bijoy");
+            System.out.println("Object to be written = " + student);
+            outputStream = new ObjectOutputStream(socket.getOutputStream());
+            outputStream.writeObject(student);
+            outputStream.flush();
 
-                socket = new Socket("localHost", 4445);
-                    Jugador student = new Jugador(43, "Bijoy");
-                    System.out.println("Object to be written = " + student);
-                   outputStream = new ObjectOutputStream(socket.getOutputStream());
-                    outputStream.writeObject(student);
-                    outputStream.flush();
-                   
-                
+        } catch (SocketException se) {
 
-            } catch (SocketException se) {
-
-                se.printStackTrace();
+            se.printStackTrace();
 
                 // System.exit(0);
+        } catch (IOException e) {
 
-            } catch (IOException e) {
+            e.printStackTrace();
 
-                e.printStackTrace();
-
-            }
+        }
 
         //}
-
     }
-
- 
 
     public static void main(String[] args) {
 
