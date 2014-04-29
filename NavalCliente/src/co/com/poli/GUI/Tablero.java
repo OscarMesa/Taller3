@@ -28,8 +28,8 @@ import navalcliente.NavalCliente;
  */
 public class Tablero extends javax.swing.JFrame {
 
-    private static int numBotones = 5;
-    private static int tamBarco = 4;
+    public static int numBotones = 5;
+    public static int tamBarco = 4;
     private ArrayList<Boton> matrizBotones,matrizBotonesEnemiga;
     private Boton[][] matrizBotopesFC,matrizBotopesFCEnemiga;
     private ArrayList<JButton> barco;
