@@ -43,14 +43,16 @@ public class Server {
                 inStream = new ObjectInputStream(socket.getInputStream()); 
                  
                 Jugador j = (Jugador) inStream.readObject();
-
-                //System.out.println("Id jugador = " + j.getIdjugador());
                 
                 Jugador p = jugadores.get(j.getIdjugador().toString());
                 if(p == null)
                 {
                     System.out.println("No existe, agregado");
                     jugadores.put(j.getIdjugador().toString(), j);
+                    if(jugadores.size() == 2)
+                    {
+                        asignarOponentes();
+                    }
                 }else{
                     System.out.println("ya existe");
                 }
@@ -83,6 +85,10 @@ public class Server {
 
         server.communicate();
 
+    }
+
+    private void asignarOponentes() {
+      
     }
 
 }
