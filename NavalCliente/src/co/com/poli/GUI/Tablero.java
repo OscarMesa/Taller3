@@ -4,39 +4,34 @@
  */
 package co.com.poli.GUI;
 
-import java.awt.Button;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.color.ColorSpace;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import navalcliente.NavalCliente;
+import navalcliente.HiloJugador;
+import navalcliente.Jugador;
+import navalcliente.Mensaje;
 
 /**
  *
  * @author omesa
  */
 public class Tablero extends javax.swing.JFrame {
-
+    
     public static int numBotones = 5;
     public static int tamBarco = 4;
-    private ArrayList<Boton> matrizBotones,matrizBotonesEnemiga;
-    private Boton[][] matrizBotopesFC,matrizBotopesFCEnemiga;
+    private ArrayList<Boton> matrizBotones, matrizBotonesEnemiga;
+    private Boton[][] matrizBotopesFC, matrizBotopesFCEnemiga;
     private ArrayList<JButton> barco;
     private Mensaje mensajes;
     private boolean barcoActivo;
     private boolean canToPlay;
-
+    private Jugador jugador;
+    
     {
         canToPlay = false;
         barcoActivo = false;
@@ -55,7 +50,8 @@ public class Tablero extends javax.swing.JFrame {
         llenarMatrizBotones();
         llenarMatrizBotonesEnemiga();
         jLabel3.setText(mensajes.UBICAR_BARCO.getMsn());
-       // NavalCliente cliente = new NavalCliente();
+
+        // NavalCliente cliente = new NavalCliente();
     }
 
     /**
@@ -166,7 +162,7 @@ public class Tablero extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         jLabel3.setText(mensajes.ESPERA_SERVER.getMsn());
         jButton1.setEnabled(false);
-        HabilitarMatrizBotones();
+        new HiloJugador(jugador,this).start();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -204,33 +200,67 @@ public class Tablero extends javax.swing.JFrame {
         });
     }
     
-    public void llenarMatrizBotonesEnemiga()
-    {
+    public void HabilitarMatrizBotonesEnemiga() {
+        for (int i = 1; i <= numBotones; i++) {
+            for (int j = 1; j <= numBotones; j++) {
+                if (matrizBotopesFCEnemiga[i][j].isHabilitado()) {
+                    matrizBotopesFCEnemiga[i][j].getBtn().setEnabled(true);
+                } else {
+                    matrizBotopesFCEnemiga[i][j].getBtn().setEnabled(false);
+                }
+            }
+        }
+    }
+    
+    public void InHabilitarMatrizBotonesEnemiga() {
+        for (int i = 1; i <= numBotones; i++) {
+            for (int j = 1; j <= numBotones; j++) {
+                matrizBotopesFCEnemiga[i][j].getBtn().setEnabled(false);
+            }
+        }
+    }
+    
+    public void llenarMatrizBotonesEnemiga() {
         jPanel1.setLayout(new GridLayout(numBotones, numBotones));
         for (int i = 1; i <= numBotones; i++) {
             for (int j = 1; j <= numBotones; j++) {
                 final JButton boton = new JButton("b" + i + "," + j);
-                Boton btnP = new Boton(boton, i, j);
+                final Boton btnP = new Boton(boton, i, j);
+                boton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        btnP.setHabilitado(false);
+                        InHabilitarMatrizBotonesEnemiga();
+                        jugador.setMsn(Mensaje.MOVIMIENTO_REALIZADO);
+                        actualizarMensaje();
+                    }
+                });
                 matrizBotonesEnemiga.add(btnP);
                 matrizBotopesFCEnemiga[i][j] = btnP;
+                boton.setEnabled(false);
                 jPanel1.add(boton);
             }
         }
     }
     
+    public void actualizarMensaje()
+    {
+        jLabel3.setText(jugador.getMsn().getMsn());
+    }
+    
     public void llenarMatrizBotones() {
         jPanel2.setLayout(new GridLayout(numBotones, numBotones));
-
+        
         for (int i = 1; i <= numBotones; i++) {
             for (int j = 1; j <= numBotones; j++) {
                 final JButton boton = new JButton("b" + i + "," + j);
                 boton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        int columna = (matrizBotones.get(Integer.parseInt(boton.getName())).getColumna());
+                        int fila = (matrizBotones.get(Integer.parseInt(boton.getName())).getFila());
                         if (!barcoActivo) {
                             int minimum = 1, maximum = 4;
-                            int columna = (matrizBotones.get(Integer.parseInt(boton.getName())).getColumna());
-                            int fila = (matrizBotones.get(Integer.parseInt(boton.getName())).getFila());
                             boolean sw = true, s1 = true, s3 = true, s2 = true, s4 = true;
                             int control = 0;
                             while (sw) {
@@ -264,7 +294,7 @@ public class Tablero extends javax.swing.JFrame {
                                         if (columna - tamBarco >= 0) {
                                             sw = false;
                                             pintarBarco4(fila, columna);
-
+                                            
                                         } else {
                                             s4 = false;
                                         }
@@ -282,11 +312,7 @@ public class Tablero extends javax.swing.JFrame {
                                 InabilitarMatrizBotones();
                             }
                         } else {
-                            if (canToPlay) {
-
-                            } else {
-                                JOptionPane.showMessageDialog(rootPane, "Espere un momento minetras se realiza la jugada");
-                            }
+                            InabilitarMatrizBotones();
                         }
                     }
                 });
@@ -307,7 +333,7 @@ public class Tablero extends javax.swing.JFrame {
             }
         }
     }
-
+    
     public void InabilitarMatrizBotones() {
         for (int i = 1; i <= numBotones; i++) {
             for (int j = 1; j <= numBotones; j++) {
@@ -318,8 +344,9 @@ public class Tablero extends javax.swing.JFrame {
                 matrizBotopesFC[i][j].getBtn().setEnabled(false);
             }
         }
-
+        
     }
+
     public void HabilitarMatrizBotones() {
         for (int i = 1; i <= numBotones; i++) {
             for (int j = 1; j <= numBotones; j++) {
@@ -331,7 +358,7 @@ public class Tablero extends javax.swing.JFrame {
             }
         }
     }
-
+    
     public void pintarBarco1(int fila, int columna) {
         int cont = 0;
         for (int i = fila; cont < tamBarco; i--) {
@@ -339,7 +366,7 @@ public class Tablero extends javax.swing.JFrame {
             cont++;
         }
     }
-
+    
     public void pintarBarco2(int fila, int columna) {
         int cont = 0;
         for (int j = columna; cont < tamBarco; j++) {
@@ -348,7 +375,7 @@ public class Tablero extends javax.swing.JFrame {
             cont++;
         }
     }
-
+    
     public void pintarBarco3(int fila, int columna) {
         int cont = 0;
         for (int i = fila; cont < tamBarco; i++) {
@@ -357,7 +384,7 @@ public class Tablero extends javax.swing.JFrame {
             cont++;
         }
     }
-
+    
     public void pintarBarco4(int fila, int columna) {
         int cont = 0;
         for (int j = columna; cont < tamBarco; j--) {
@@ -365,6 +392,14 @@ public class Tablero extends javax.swing.JFrame {
             barco.add(matrizBotopesFC[fila][j].getBtn());
             cont++;
         }
+    }
+    
+    public Jugador getJugador() {
+        return jugador;
+    }
+    
+    public void setJugador(Jugador jugador) {
+        this.jugador = jugador;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -381,69 +416,55 @@ public class Tablero extends javax.swing.JFrame {
 
 }
 
-enum Mensaje {
-
-    ESPERA_SERVER("Esperando conexion del servidor."),
-    ESPERA_OPONENTE("Esperando conexion oponente."),
-    TURNO("Es su turno, realice su movimiento."),
-    ESPERA_MOVIMIENTO_OPONENTE("Espere que su oponente realice el movimiento"),
-    ERROR_CONEXION("A surgiodo un error durante la conexion."),
-    EXITO_TIRO("A conseguido darle al oponente."),
-    ERRADO_TIRO("Su tiro fue errado."),
-    UBICAR_BARCO("Seleccione una posicion dentro de la matriz, para colocar aletoreamente el barco."),
-    INICIAR_PARTIDA("Por favor inicie la partida."),
-    ERROR_POSICION_BARCO("Debe seleccionar un punto diferente en la mtriz, debido a que el barco no puede ser ubicado");
-
-    private final String msn;
-
-    private Mensaje(String msn) {
-        this.msn = msn;
-    }
-
-    public String getMsn() {
-        return msn;
-    }
-}
-
 class Boton implements Comparable<Boton>, Comparator<Boton> {
-
+    
     private JButton btn;
     private int fila;
     private int columna;
-
+    private boolean habilitado;
+    
     public Boton() {
     }
-
+    
     public Boton(JButton btn, int fila, int columna) {
         this.btn = btn;
         this.fila = fila;
         this.columna = columna;
+        habilitado = true;
     }
-
+    
+    public boolean isHabilitado() {
+        return habilitado;
+    }    
+    
+    public void setHabilitado(boolean habilitado) {
+        this.habilitado = habilitado;
+    }
+    
     public JButton getBtn() {
         return btn;
     }
-
+    
     public void setBtn(JButton btn) {
         this.btn = btn;
     }
-
+    
     public int getFila() {
         return fila;
     }
-
+    
     public void setFila(int fila) {
         this.fila = fila;
     }
-
+    
     public int getColumna() {
         return columna;
     }
-
+    
     public void setColumna(int columna) {
         this.columna = columna;
     }
-
+    
     @Override
     public int compareTo(Boton o) {
         if (this.getColumna() == o.getColumna() && this.getFila() == o.getFila()) {
@@ -452,10 +473,10 @@ class Boton implements Comparable<Boton>, Comparator<Boton> {
             return (this.getFila());
         }
     }
-
+    
     @Override
     public int compare(Boton o1, Boton o2) {
         return o1.equals(o2) ? 1 : 0;
     }
-
+    
 }

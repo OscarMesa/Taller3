@@ -35,9 +35,11 @@ public class NavalCliente implements Serializable{
                             .getByName("localhost"));
 
             // Se instancia un DatoUdp y se convierte a bytes[]
-            Jugador elDato = new Jugador();
-            byte[] elDatoEnBytes = elDato.serializarJugardor();
-
+            Jugador elDato = new Jugador(null);
+            //byte[] elDatoEnBytes = elDato.serializarJugardor();
+            
+            byte[] elDatoEnBytes = null;
+            
             // Se meten los bytes en el DatagramPacket, que es lo que se
             // va a enviar por el socket.
             // El destinatario es el servidor.
