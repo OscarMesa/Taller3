@@ -19,3 +19,5 @@ hs_err_pid*
 /NavalServidor/build/
 /NavalCliente/dist/
 /NavalServidor/dist/
+/memoria/memoria_cliente/nbproject/private/
+/memoria/memoria_servidor/nbproject/private/
