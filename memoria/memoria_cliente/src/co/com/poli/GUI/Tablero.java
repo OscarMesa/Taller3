@@ -215,17 +215,21 @@ public class Tablero extends javax.swing.JFrame {
             position = buscar_vacio();
             img_v[position] = n; 
         }
-
+        for (int i = 0; i < img_v.length; i++) {
+            System.out.println(">>"+img_v[i]);
+        }
         
         int my_img=0;
         for (int i = 1; i <= numBotones; i++) {
             for (int j = 1; j <= numBotones; j++) {
+                
+                 System.out.println(""+(int) Math.round(Math.random()*1000*2 - 9999));
                 final JButton boton = new JButton("b" + i + "," + j);
 
                 final Boton btnP = new Boton(boton, i, j);
                 //boton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/1.png")));
                
-                btnP.setUrl(my_img);
+                btnP.setUrl(img_v[my_img]);
                // boton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/"+img_v[my_img]+".png")));
                 my_img++;
                 
@@ -267,6 +271,12 @@ public class Tablero extends javax.swing.JFrame {
                 jPanel1.add(boton);
             }
         }
+    }
+    
+    public void comparar(){
+    
+        
+    
     }
     
     public void actualizarMensaje()

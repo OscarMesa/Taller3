@@ -111,20 +111,4 @@ public class Memoria_sevidor {
         Server server = new Server();
         server.communicate();
     }
-
-    private void asignarOponentes(String id) {
-        List keys = new ArrayList(jugadores.keySet());
-        Jugador j1, j2;
-        jugadores.get(keys.get(0)).setOpenente(jugadores.get(keys.get(1)));
-        jugadores.get(keys.get(1)).setOpenente(jugadores.get(keys.get(0)));
-        
-        jugadores.get(id).setMsn(memoria_cliente.Mensaje.TURNO);
-        
-        if(!jugadores.get(keys.get(0)).getIdjugador().equals(id) ){
-            jugadores.get(keys.get(0)).setMsn(Mensaje.ESPERA_MOVIMIENTO_OPONENTE);
-        }else{
-            jugadores.get(keys.get(1)).setMsn(Mensaje.ESPERA_MOVIMIENTO_OPONENTE);
-        }
-    }
-
 }
