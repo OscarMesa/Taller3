@@ -27,6 +27,7 @@ public class Client {
         jugador = new Jugador("sape");
         Tablero t = new Tablero();
         t.setJugador(jugador);
+        jugador.setIdjugador(1);
         t.setVisible(true);
     }
 

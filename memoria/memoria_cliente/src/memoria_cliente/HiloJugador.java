@@ -68,12 +68,7 @@ public class HiloJugador extends Thread {
     
     public void actualizarInterfaz()
     {
-        if(jugador.getMsn() == Mensaje.TURNO)
-        {
-            tablero.HabilitarMatrizBotonesEnemiga();
-        }
         
-        tablero.actualizarMensaje();
     }
     
     public void communicate() throws InterruptedException {

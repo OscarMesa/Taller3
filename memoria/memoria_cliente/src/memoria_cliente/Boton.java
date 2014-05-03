@@ -5,7 +5,6 @@
  */
 package memoria_cliente;
 
-import java.net.URL;
 import java.util.Comparator;
 import javax.swing.JButton;
 
@@ -20,7 +19,7 @@ public class Boton implements Comparable<Boton>, Comparator<Boton>{
     private int columna;
     private boolean habilitado;
     private int estado;
-    private URL url;
+    private int url;
     
     public Boton() {
     }
@@ -73,11 +72,11 @@ public class Boton implements Comparable<Boton>, Comparator<Boton>{
         this.estado = estado;
     }
     
-    public URL getUrl() {
+    public int getUrl() {
         return url;
     }
 
-    public void setUrl(URL url) {
+    public void setUrl(int url) {
         this.url = url;
     }    
     

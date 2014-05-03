@@ -7,14 +7,13 @@ package memoria_cliente;
 
 import co.com.poli.GUI.Tablero;
 import java.io.Serializable;
-import java.util.UUID;
 
 public class Jugador implements Serializable {
 
     private static final long serialVersionUID = 5950169519310163575L;
 
     private String name;
-    private String idjugador;
+    private int idjugador;
     private Mensaje msn;
     private Jugador openente;
     private Boton[][] MiTablero;//Este tablero va a tener 0 en todas las posiciones inicialmente donde tenga un 1 es por que ya fue un punto en la matriz que fue tomada por el oponente, donde tenga 2 es por que es una posicion del barco y donde tenga 3 es por que era una osicion del barco que fue tomada por el oponente.
@@ -23,7 +22,6 @@ public class Jugador implements Serializable {
 
     public Jugador(String name) {
         this.name = name;
-        idjugador = UUID.randomUUID().toString();
         msn = Mensaje.ESPERA_SERVER;
         MiTablero = new Boton[Tablero.numBotones + 1][Tablero.numBotones + 1];
         TableroEnemigo = new Boton[Tablero.numBotones + 1][Tablero.numBotones + 1];
@@ -59,11 +57,11 @@ public class Jugador implements Serializable {
 
     }
 
-    public String getIdjugador() {
+    public int getIdjugador() {
         return idjugador;
     }
 
-    public void setIdjugador(String idjugador) {
+    public void setIdjugador(int idjugador) {
         this.idjugador = idjugador;
     }
 
